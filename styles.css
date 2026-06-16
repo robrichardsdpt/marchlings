@@ -120,6 +120,30 @@ button.big:hover { filter: brightness(1.08); }
 .navrow button:hover, .lvl:hover { border-color: var(--accent); }
 .levelgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 8px; }
 
+/* ---- minimap ---- */
+#minimap-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--panel);
+  border: 1px solid #2c3759;
+  border-radius: 8px;
+  padding: 6px 10px;
+}
+.mini-label {
+  font-size: 10px; letter-spacing: 2px; color: var(--muted);
+}
+#minimap {
+  flex: 1;
+  width: 100%;
+  height: auto;
+  image-rendering: pixelated;
+  border: 1px solid #3a4670;
+  border-radius: 4px;
+  cursor: pointer;
+  background: #0a0f1c;
+}
+
 /* ---- toolbar ---- */
 #toolbar {
   display: flex;

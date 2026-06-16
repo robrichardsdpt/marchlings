@@ -38,7 +38,10 @@
     mute: document.getElementById('btn-mute'),
     overlay: document.getElementById('overlay'),
     selname: document.getElementById('sel-skill'),
+    miniWrap: document.getElementById('minimap-wrap'),
+    minimap: document.getElementById('minimap'),
   };
+  const miniCtx = dom.minimap.getContext('2d');
 
   let world = null;
   let levelIndex = 0;
@@ -50,6 +53,8 @@
   let last = 0;
   const STEP_MS = 1000 / E.FPS;
   let skillButtons = {};
+  const mouse = { sx: 0, inside: false }; // screen-fraction x for edge scroll
+  const EDGE_SCROLL = 6, KEY_SCROLL = 28;
 
   // ---- level lifecycle ----------------------------------------------------
   function loadLevel(i) {
@@ -62,10 +67,28 @@
     dom.pause.textContent = '❚❚ Pause';
     dom.ff.classList.remove('on');
     dom.levelName.textContent = `${levelIndex + 1}. ${lvl.name}`;
+    setupMinimap();
     buildSkillPanel();
     showBriefing(lvl);
     mode = 'briefing';
     updateHUD();
+  }
+
+  function setupMinimap() {
+    const t = world.terrain;
+    if (!renderer.canScroll()) { dom.miniWrap.style.display = 'none'; return; }
+    dom.miniWrap.style.display = 'block';
+    const mw = 320;
+    const mh = Math.round(mw * t.h / t.w);
+    dom.minimap.width = mw;
+    dom.minimap.height = mh;
+  }
+
+  function minimapJump(ev) {
+    if (!renderer.canScroll()) return;
+    const r = dom.minimap.getBoundingClientRect();
+    const fx = (ev.clientX - r.left) / r.width;
+    renderer.centerOn(fx * world.terrain.w);
   }
 
   function firstAvailableSkill() {
@@ -194,17 +217,25 @@
   // ---- input --------------------------------------------------------------
   function canvasToLogical(ev) {
     const r = canvas.getBoundingClientRect();
-    const x = (ev.clientX - r.left) / r.width * world.terrain.w;
+    const fx = (ev.clientX - r.left) / r.width;
+    const x = renderer.cam.x + fx * renderer.viewW;
     const y = (ev.clientY - r.top) / r.height * world.terrain.h;
-    return { x, y };
+    return { x, y, fx };
   }
 
   canvas.addEventListener('mousemove', ev => {
     if (!world) return;
     const p = canvasToLogical(ev);
     renderer.hover = world.pick(p.x, p.y, 5);
+    mouse.sx = p.fx; mouse.inside = true;
   });
-  canvas.addEventListener('mouseleave', () => { renderer.hover = null; });
+  canvas.addEventListener('mouseleave', () => { renderer.hover = null; mouse.inside = false; });
+
+  // Minimap navigation (click or drag).
+  let miniDragging = false;
+  dom.minimap.addEventListener('mousedown', ev => { miniDragging = true; minimapJump(ev); });
+  window.addEventListener('mousemove', ev => { if (miniDragging) minimapJump(ev); });
+  window.addEventListener('mouseup', () => { miniDragging = false; });
 
   canvas.addEventListener('click', ev => {
     if (mode !== 'playing' || !world) return;
@@ -223,6 +254,8 @@
     else if (ev.key === 'f' || ev.key === 'F') toggleFast();
     else if (ev.key === 'n' || ev.key === 'N') doNuke();
     else if (ev.key === 'Enter' && mode === 'briefing') beginPlay();
+    else if (ev.key === 'ArrowLeft' || ev.key === 'a' || ev.key === 'A') { if (renderer.world) renderer.scrollBy(-KEY_SCROLL); }
+    else if (ev.key === 'ArrowRight' || ev.key === 'd' || ev.key === 'D') { if (renderer.world) renderer.scrollBy(KEY_SCROLL); }
   });
 
   function togglePause() {
@@ -277,7 +310,16 @@
       updateHUD();
     }
 
-    if (world) renderer.draw(now);
+    // edge-scroll while the pointer hovers the canvas margins
+    if (world && renderer.canScroll() && mouse.inside && mode === 'playing') {
+      if (mouse.sx < 0.10) renderer.scrollBy(-EDGE_SCROLL);
+      else if (mouse.sx > 0.90) renderer.scrollBy(EDGE_SCROLL);
+    }
+
+    if (world) {
+      renderer.draw(now);
+      if (renderer.canScroll()) renderer.drawMinimap(miniCtx, dom.minimap.width, dom.minimap.height);
+    }
     requestAnimationFrame(frame);
   }
 

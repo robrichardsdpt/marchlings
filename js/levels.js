@@ -166,6 +166,53 @@
       ],
       water: [ { x: 110, y: 254, w: 40, h: 14 } ],
     },
+
+    // 9 — A wide level: the camera scrolls. The long march east.
+    {
+      name: 'The Long March',
+      width: 900, height: H,
+      count: 24, required: 15, time: 360, releaseRate: 45,
+      entrance: { x: 50, y: 165, dir: 1 },
+      exit: { x: 838, y: 196, w: 18, h: 24 },
+      skills: { climber: 3, floater: 3, bomber: 1, blocker: 2, builder: 4, basher: 3, miner: 1, digger: 1 },
+      hint: 'A wide world — scroll with the minimap, arrow keys, or screen edges. Bridge the gaps, breach the walls.',
+      terrain: [
+        r(40, 200, 90, 20),
+        r(0, 220, 300, 50),
+        r(340, 220, 220, 50),         // gap with water at 300..340
+        r(540, 140, 30, 80),          // dirt wall — climb or bash
+        r(560, 220, 340, 50),
+        r(720, 200, 60, 20),
+        r(290, 220, 12, 50, 'steel'),
+        r(560, 200, 8, 20, 'steel'),
+      ],
+      water: [ { x: 302, y: 254, w: 38, h: 16 } ],
+    },
+
+    // 10 — Big finale: wide AND tall obstacles. Everything goes.
+    {
+      name: 'Citadel of the Marchlings',
+      width: 960, height: H,
+      count: 30, required: 18, time: 420, releaseRate: 50,
+      entrance: { x: 40, y: 60, dir: 1 },
+      exit: { x: 900, y: 196, w: 18, h: 24 },
+      skills: { climber: 5, floater: 5, bomber: 3, blocker: 4, builder: 5, basher: 4, miner: 4, digger: 4 },
+      hint: 'The grand citadel. Use every trick you know to bring them home.',
+      terrain: [
+        r(0, 90, 110, 18),            // start ledge
+        r(90, 40, 22, 170),           // wall to climb
+        r(90, 40, 150, 14),           // plateau
+        r(250, 54, 40, 140),          // dirt column (bash / mine)
+        r(300, 150, 150, 16),         // mid ledge
+        r(360, 150, 18, 70, 'steel'), // steel pillar
+        r(480, 200, 120, 16),
+        r(620, 120, 30, 130),         // tall dirt wall
+        r(700, 220, 260, 50),         // right floor (with exit)
+        r(0, 256, 600, 14),           // bottom-left floor
+        r(150, 256, 40, 14, 'steel'),
+      ],
+      water: [ { x: 110, y: 254, w: 40, h: 14 }, { x: 600, y: 254, w: 100, h: 16 } ],
+    },
   ];
 
   return { levels };

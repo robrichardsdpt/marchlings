@@ -41,11 +41,14 @@ bombers all stop at it. Water and bottomless pits are deadly.
 - **Click skill → click marchling** to assign.
 - **Space** pause · **F** fast-forward · **N** nuke (detonate everyone).
 - **Rate –/+** change how fast marchlings pour out of the hatch.
+- On wide levels, **scroll** with the **arrow keys / A·D**, by pushing the pointer
+  to the screen edges, or by **clicking/dragging the minimap**.
 
 ## Levels
 
-Eight handcrafted stages, each introducing a skill and ramping up, finishing
-with the everything-goes **Grand Gauntlet**.
+Ten handcrafted stages, each introducing a skill and ramping up. The final two —
+**The Long March** and **Citadel of the Marchlings** — are big, horizontally
+**scrolling** levels with a live minimap.
 
 ## Project layout
 

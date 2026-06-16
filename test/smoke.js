@@ -220,6 +220,7 @@ section('Exit & Water');
 section('Campaign integrity');
 {
   ok('there are levels', levels.length >= 6);
+  ok('has a wide (scrolling) level', levels.some(l => l.width > 480));
   let totalSteps = 0;
   for (const lvl of levels) {
     const w = new World(lvl);
