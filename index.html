@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>Marchlings — a lemming-style puzzle</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="app">
+    <header id="topbar">
+      <div class="brand">MARCHLINGS</div>
+      <div id="level-name">—</div>
+      <div class="stats">
+        <span class="stat"><b id="stat-saved">0</b><i>saved</i></span>
+        <span class="stat"><b id="stat-need">0</b><i>needed</i></span>
+        <span class="stat"><b id="stat-out">0</b><i>out</i></span>
+        <span class="stat"><b id="stat-time">0:00</b><i>time</i></span>
+        <span class="stat rate"><b id="stat-rate">0</b><i>rate</i></span>
+      </div>
+    </header>
+
+    <div id="stage">
+      <canvas id="game"></canvas>
+      <div id="overlay"></div>
+    </div>
+
+    <div id="toolbar">
+      <div id="skills"></div>
+      <div id="controls">
+        <div class="sel">Skill: <b id="sel-skill">—</b></div>
+        <button id="btn-rate-down" title="Slower release">Rate –</button>
+        <button id="btn-rate-up" title="Faster release">Rate +</button>
+        <button id="btn-pause">❚❚ Pause</button>
+        <button id="btn-ff" title="Fast forward (F)">» Fast</button>
+        <button id="btn-nuke" title="Detonate everyone (N)">☢ Nuke</button>
+        <button id="btn-mute">🔊</button>
+      </div>
+    </div>
+
+    <footer>
+      Click a skill (or press 1–8), then click a marchling. Space = pause · F = fast · N = nuke.
+    </footer>
+  </div>
+
+  <script src="js/engine.js"></script>
+  <script src="js/levels.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/render.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

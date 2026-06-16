@@ -1,0 +1,10 @@
+{
+  "name": "marchlings",
+  "version": "1.0.0",
+  "description": "A lemming-style pixel puzzle game. Zero dependencies, vanilla JS.",
+  "scripts": {
+    "test": "node test/smoke.js",
+    "start": "node -e \"console.log('Open index.html in a browser, or run: npx serve .')\""
+  },
+  "license": "MIT"
+}
